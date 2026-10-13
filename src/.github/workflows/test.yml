@@ -1,0 +1,26 @@
+yaml
+
+name: XNG - C tests
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile test
+        run: |
+          gcc -std=c11 -O2 -Wall -Wextra -Werror \
+            src/upscale.c tests/test_upscale.c \
+            -o xng-test
+
+      - name: Run test
+        run: ./xng-test
